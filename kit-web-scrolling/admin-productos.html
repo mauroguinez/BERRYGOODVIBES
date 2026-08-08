@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Productos | Berry Good</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #E63329;
+      --pink: #FF8BA8;
+      --cream: #FFF8F8;
+      --white: #ffffff;
+      --dark: #1A0A0C;
+      --gray: #6B4C50;
+      --shadow: 0 22px 48px rgba(0, 0, 0, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #fff7f6 0%, #ffe8ea 100%);
+      color: var(--dark);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .page-shell {
+      width: min(1260px, 100%);
+      margin: 0 auto;
+      padding: 28px 20px 36px;
+    }
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding: 24px 28px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(230, 51, 41, 0.12);
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      color: var(--red);
+    }
+
+    .topbar p {
+      margin: 0;
+      max-width: 560px;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #E63329, #FF5D6B);
+      color: white;
+      box-shadow: 0 18px 30px rgba(230, 51, 41, 0.2);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--dark);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .panel {
+      display: grid;
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(230, 51, 41, 0.12);
+    }
+
+    .card h2 {
+      margin: 0 0 18px;
+      font-family: 'Fredoka One', cursive;
+      color: var(--red);
+      font-size: clamp(1.7rem, 2.5vw, 2.4rem);
+    }
+
+    .field-group {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    input[type='text'],
+    input[type='number'],
+    textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      background: #fff;
+      color: var(--dark);
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .toggle-group input {
+      width: auto;
+      accent-color: var(--red);
+      transform: scale(1.2);
+    }
+
+    .image-preview {
+      width: 100%;
+      min-height: 200px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(230, 51, 41, 0.12), rgba(255, 255, 255, 0.95));
+      border: 1px dashed rgba(230, 51, 41, 0.35);
+      display: grid;
+      place-items: center;
+      color: var(--gray);
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 22px;
+    }
+
+    .image-preview.empty {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      background: white;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      display: grid;
+      gap: 16px;
+      padding: 22px;
+      border-radius: 28px;
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 18px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-card img {
+      width: 100%;
+      min-height: 180px;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .product-card h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--dark);
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(230, 51, 41, 0.12);
+      color: var(--red);
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .product-meta {
+      display: grid;
+      gap: 8px;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    .product-meta strong {
+      color: var(--dark);
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .product-footer button {
+      width: 100%;
+      flex: 1;
+    }
+
+    .product-footer button:nth-child(1) {
+      background: var(--pink);
+      color: var(--dark);
+      border: 1px solid rgba(230, 51, 41, 0.14);
+    }
+
+    .product-footer button:nth-child(2) {
+      background: rgba(230, 51, 41, 0.12);
+      color: var(--red);
+    }
+
+    .product-footer button:hover {
+      opacity: 0.95;
+    }
+
+    .note {
+      font-size: 0.95rem;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 980px) {
+      .product-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .row-2,
+      .product-footer,
+      .search-bar,
+      .action-buttons {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div>
+        <h1>Panel privado de productos</h1>
+        <p>Administra tus productos de Berry Good desde este panel interno. Los cambios se guardan en Firebase y se muestran en la página principal.</p>
+      </div>
+      <div class="action-buttons">
+        <button type="button" class="btn btn-secondary" id="importBtn">Importar JSON</button>
+        <button type="button" class="btn btn-primary" id="exportBtn">Exportar backup</button>
+      </div>
+    </header>
+
+    <section class="panel">
+      <article class="card">
+        <h2>Agregar / editar producto</h2>
+        <form id="productForm">
+          <div class="field-group">
+            <label>
+              Foto del producto
+              <input type="file" id="imageInput" accept="image/*" />
+            </label>
+            <div class="image-preview empty" id="imagePreview">Vista previa de imagen</div>
+          </div>
+
+          <div class="field-group">
+            <label>
+              Nombre
+              <input type="text" id="nameInput" placeholder="Ej: Vaso Berry Royale" required />
+            </label>
+            <label>
+              Precio
+              <input type="number" id="priceInput" placeholder="Ej: 1350" min="0" step="1" required />
+            </label>
+          </div>
+
+          <div class="field-group">
+            <label>
+              Descripción corta
+              <textarea id="descriptionInput" placeholder="Descripción breve del producto" maxlength="160"></textarea>
+            </label>
+          </div>
+
+          <div class="field-group row-2">
+            <label>
+              Categoría
+              <input type="text" id="categoryInput" placeholder="Ej: Postres, Bebidas" />
+            </label>
+            <label class="toggle-group">
+              <span>Disponible</span>
+              <input type="checkbox" id="availableInput" checked />
+            </label>
+          </div>
+
+          <input type="hidden" id="productIdInput" />
+          <div class="action-buttons">
+            <button type="submit" class="btn btn-primary" id="saveBtn">Guardar producto</button>
+            <button type="button" class="btn btn-secondary" id="resetBtn">Limpiar formulario</button>
+          </div>
+          <p class="note">Si editás un producto, carga la imagen solo si querés reemplazarla.</p>
+        </form>
+      </article>
+
+      <article class="card">
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Buscar producto por nombre" />
+          <button type="button" class="btn btn-secondary" id="clearSearchBtn">Limpiar búsqueda</button>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+        <p class="note">No hay productos cargados todavía.</p>
+      </article>
+    </section>
+  </div>
+
+  <input type="file" id="importFileInput" class="hidden" accept="application/json" />
+  <script type="module" src="./admin.js"></script>
+</body>
+</html>
