@@ -814,6 +814,80 @@ main {
   }
 }
 
+/* ===========================================
+   Productos desde Firebase — legibilidad
+   =========================================== */
+
+/* Las tarjetas se inyectan después del IntersectionObserver,
+   así que nunca reciben .visible: las mostramos siempre. */
+#productList .animate,
+.product-card.animate {
+  opacity: 1;
+  transform: none;
+}
+
+.product-card {
+  background: var(--white);
+  color: var(--dark);
+  border: 1px solid rgba(230, 51, 41, 0.10);
+  box-shadow: 0 18px 48px rgba(26, 10, 12, 0.10);
+}
+
+.product-card h3 {
+  color: var(--dark);
+  font-family: 'Fredoka One', cursive;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.product-card p {
+  color: var(--dark);
+  opacity: 0.85;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.product-card .product-price {
+  color: var(--red);
+  font-weight: 800;
+  font-size: 1.25rem;
+  opacity: 1;
+  margin: 0;
+}
+
+/* Estado del producto */
+.product-card .badge {
+  background: #FFE3EA;
+  color: #8A1F2A;
+  border: 1px solid rgba(230, 51, 41, 0.18);
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(26, 10, 12, 0.08);
+}
+
+.product-card .badge.available,
+.product-card .badge.disponible {
+  background: #E3F5E4;
+  color: #1B5E20;
+  border-color: rgba(46, 125, 50, 0.24);
+}
+
+/* Placeholder cuando el producto no tiene foto */
+.product-card .product-photo,
+#productList .product-photo {
+  background: #F1ECEC;
+  color: #6B4C50;
+  border: 1px dashed rgba(107, 76, 80, 0.28);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  min-height: 200px;
+}
+
+.product-card .product-photo:has(img),
+#productList .product-photo:has(img) {
+  background: #F1ECEC;
+  border-color: transparent;
+}
+
 @media (max-width: 640px) {
   .hero h1 {
     font-size: 2.8rem;
